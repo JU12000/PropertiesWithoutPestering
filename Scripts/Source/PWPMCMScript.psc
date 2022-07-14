@@ -18,6 +18,8 @@ float defaultWhiterunHP
 float defaultWhiterunHPNoFavor
 float defaultWindhelmHP
 float defaultWindhelmHPNoFavor
+float defaultBYOHHPCost
+float defaultBYOHHPCostNoFavor
 
 int sliderMarkarthHP
 int sliderMarkarthHPNoFavor
@@ -29,6 +31,8 @@ int sliderWhiterunHP
 int sliderWhiterunHPNoFavor
 int sliderWindhelmHP
 int sliderWindhelmHPNoFavor
+int sliderBYOHHPCost
+int sliderBYOHHPCostNoFavor
 
 Event OnConfigInit()
 	fiss = FISSFactory.getFISS()
@@ -55,6 +59,9 @@ Event OnConfigInit()
 	defaultWindhelmHP = HPWindhelm.GetValue()
 	defaultWindhelmHPNoFavor = PWPHPWindhelmNoFavor.GetValue()
 
+	defaultBYOHHPCost = BYOHHPCost.GetValue()
+	defaultBYOHHPCostNoFavor = PWPBYOHHPCostNoFavor.GetValue()
+
 	Debug.Notification("PWP Initialization Complete")
 EndEvent
 
@@ -77,6 +84,9 @@ Event OnPageReset(string page)
 
 		sliderWindhelmHP = AddSliderOption("Windhelm", HPWindhelm.GetValue())
 		sliderWindhelmHPNoFavor = AddSliderOption("Windhelm", PWPHPWindhelmNoFavor.GetValue())
+
+		sliderBYOHHPCost = AddSliderOption("Hearthfire", BYOHHPCost.GetValue())
+		sliderBYOHHPCostNoFavor = AddSliderOption("Hearthfire", PWPBYOHHPCostNoFavor.GetValue())
 
 		If allowFISSOptions
 			AddEmptyOption()
@@ -135,6 +145,18 @@ Event OnOptionSelect(int option)
 			PWPHPWindhelmNoFavor.SetValue(fiss.loadFloat("PWPHPWindhelmNoFavor"))
 			HousePurchase.UpdateCurrentInstanceGlobal(PWPHPWindhelmNoFavor)
 			SetSliderOptionValue(sliderWindhelmHPNoFavor, PWPHPWindhelmNoFavor.GetValue())
+
+			BYOHHPCost.SetValue(fiss.loadFloat("BYOHHPCost"))
+			BYOHHouseFalkreath.UpdateCurrentInstanceGlobal(BYOHHPCost)
+			BYOHHouseHjaalmarch.UpdateCurrentInstanceGlobal(BYOHHPCost)
+			BYOHHousePale.UpdateCurrentInstanceGlobal(BYOHHPCost)
+			SetSliderOptionValue(sliderBYOHHPCost, BYOHHPCost.GetValue())
+
+			PWPBYOHHPCostNoFavor.SetValue(fiss.loadFloat("PWPBYOHHPCostNoFavor"))
+			BYOHHouseFalkreath.UpdateCurrentInstanceGlobal(PWPBYOHHPCostNoFavor)
+			BYOHHouseHjaalmarch.UpdateCurrentInstanceGlobal(PWPBYOHHPCostNoFavor)
+			BYOHHousePale.UpdateCurrentInstanceGlobal(PWPBYOHHPCostNoFavor)
+			SetSliderOptionValue(sliderBYOHHPCost, PWPBYOHHPCostNoFavor.GetValue())
 		string loadResult = fiss.endLoad()
 
 		If (loadResult != "")
@@ -161,6 +183,9 @@ Event OnOptionSelect(int option)
 
 			fiss.saveFloat("HPWindhelm", HPWindhelm.GetValue())
 			fiss.saveFloat("PWPHPWindhelmNoFavor", PWPHPWindhelmNoFavor.GetValue())
+
+			fiss.saveFloat("BYOHHPCost", BYOHHPCost.GetValue())
+			fiss.saveFloat("PWPBYOHHPCostNoFavor", PWPBYOHHPCostNoFavor.GetValue())
 		string saveResult = fiss.endSave()
 
 		If (saveResult != "")
@@ -223,6 +248,16 @@ Event OnOptionSliderOpen(int option)
 		SetSliderDialogDefaultValue(defaultWindhelmHPNoFavor)
 		SetSliderDialogRange(0, 100000)
 		SetSliderDialogInterval(100)
+	ElseIf (option == sliderBYOHHPCost)
+		SetSliderDialogStartValue(BYOHHPCost.GetValue())
+		SetSliderDialogDefaultValue(defaultBYOHHPCost)
+		SetSliderDialogRange(0, 100000)
+		SetSliderDialogInterval(100)
+	ElseIf (option == sliderBYOHHPCostNoFavor)
+		SetSliderDialogStartValue(PWPBYOHHPCostNoFavor.GetValue())
+		SetSliderDialogDefaultValue(defaultBYOHHPCostNoFavor)
+		SetSliderDialogRange(0, 100000)
+		SetSliderDialogInterval(100)
 	EndIf
 EndEvent
 
@@ -267,6 +302,18 @@ Event OnOptionSliderAccept(int option, float value)
 		PWPHPWindhelmNoFavor.SetValue(value)
 		HousePurchase.UpdateCurrentInstanceGlobal(PWPHPWindhelmNoFavor)
 		SetSliderOptionValue(option, value)
+	ElseIf (option == sliderBYOHHPCost)
+		BYOHHPCost.SetValue(value)
+		BYOHHouseFalkreath.UpdateCurrentInstanceGlobal(BYOHHPCost)
+		BYOHHouseHjaalmarch.UpdateCurrentInstanceGlobal(BYOHHPCost)
+		BYOHHousePale.UpdateCurrentInstanceGlobal(BYOHHPCost)
+		SetSliderOptionValue(option, value)
+	ElseIf (option == sliderBYOHHPCostNoFavor)
+		PWPBYOHHPCostNoFavor.SetValue(value)
+		BYOHHouseFalkreath.UpdateCurrentInstanceGlobal(PWPBYOHHPCostNoFavor)
+		BYOHHouseHjaalmarch.UpdateCurrentInstanceGlobal(PWPBYOHHPCostNoFavor)
+		BYOHHousePale.UpdateCurrentInstanceGlobal(PWPBYOHHPCostNoFavor)
+		SetSliderOptionValue(option, value)
 	EndIf
 EndEvent
 
@@ -275,11 +322,16 @@ GlobalVariable Property HPRiften Auto
 GlobalVariable Property HPSolitude Auto
 GlobalVariable Property HPWhiterun Auto
 GlobalVariable Property HPWindhelm Auto
+GlobalVariable Property BYOHHPCost  Auto  
 
 GlobalVariable Property PWPHPMarkarthNoFavor  Auto  
 GlobalVariable Property PWPHPRiftenNoFavor  Auto  
 GlobalVariable Property PWPHPSolitudeNoFavor  Auto  
 GlobalVariable Property PWPHPWhiterunNoFavor  Auto  
 GlobalVariable Property PWPHPWindhelmNoFavor  Auto  
+GlobalVariable Property PWPBYOHHPCostNoFavor  Auto  
 
 Quest Property HousePurchase  Auto  
+Quest Property BYOHHouseFalkreath  Auto  
+Quest Property BYOHHouseHjaalmarch  Auto  
+Quest Property BYOHHousePale  Auto  

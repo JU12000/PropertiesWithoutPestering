@@ -1,47 +1,47 @@
-Scriptname PWPMCMScript extends SKI_ConfigBase  
+Scriptname PWPMCMScript Extends SKI_ConfigBase
 
-import FISSFactory
+Import FISSFactory
 FISSInterface fiss
 
-bool allowFISSOptions
+Bool allowFISSOptions
 
-int optionFISSImport
-int optionFISSExport
+Int optionFISSImport
+Int optionFISSExport
 
-float defaultMarkarthHP
-float defaultMarkarthHPNoFavor
-float defaultRiftenHP
-float defaultRiftenHPNoFavor
-float defaultSolitudeHP
-float defaultSolitudeHPNoFavor
-float defaultWhiterunHP
-float defaultWhiterunHPNoFavor
-float defaultWindhelmHP
-float defaultWindhelmHPNoFavor
-float defaultBYOHHPCost
-float defaultBYOHHPCostNoFavor
+Float defaultMarkarthHP
+Float defaultMarkarthHPNoFavor
+Float defaultRiftenHP
+Float defaultRiftenHPNoFavor
+Float defaultSolitudeHP
+Float defaultSolitudeHPNoFavor
+Float defaultWhiterunHP
+Float defaultWhiterunHPNoFavor
+Float defaultWindhelmHP
+Float defaultWindhelmHPNoFavor
+Float defaultBYOHHPCost
+Float defaultBYOHHPCostNoFavor
 
-int sliderMarkarthHP
-int sliderMarkarthHPNoFavor
-int sliderRiftenHP
-int sliderRiftenHPNoFavor
-int sliderSolitudeHP
-int sliderSolitudeHPNoFavor
-int sliderWhiterunHP
-int sliderWhiterunHPNoFavor
-int sliderWindhelmHP
-int sliderWindhelmHPNoFavor
-int sliderBYOHHPCost
-int sliderBYOHHPCostNoFavor
+Int sliderMarkarthHP
+Int sliderMarkarthHPNoFavor
+Int sliderRiftenHP
+Int sliderRiftenHPNoFavor
+Int sliderSolitudeHP
+Int sliderSolitudeHPNoFavor
+Int sliderWhiterunHP
+Int sliderWhiterunHPNoFavor
+Int sliderWindhelmHP
+Int sliderWindhelmHPNoFavor
+Int sliderBYOHHPCost
+Int sliderBYOHHPCostNoFavor
 
 Event OnConfigInit()
 	fiss = FISSFactory.getFISS()
 
 	If !fiss
 		debug.Notification("PWP: FISSES is not installed. Disabling Import/Export")
-		allowFISSOptions = false
+		allowFISSOptions = False
 	Else
-		allowFISSOptions = true
+		allowFISSOptions = True
 	EndIf
 
 	defaultMarkarthHP = HPMarkarth.GetValue()
@@ -65,7 +65,7 @@ Event OnConfigInit()
 	Debug.Notification("PWP Initialization Complete")
 EndEvent
 
-Event OnPageReset(string page)
+Event OnPageReset(String page)
 	If (page == "")
 		AddHeaderOption("House Prices: Favor")
 		AddHeaderOption("House Prices: No Favor")
@@ -101,7 +101,7 @@ Event OnPageReset(string page)
 	EndIf
 EndEvent
 
-Event OnOptionSelect(int option)
+Event OnOptionSelect(Int option)
 	If (option == optionFISSImport)
 		SetTextOptionValue(option, "")
 
@@ -157,7 +157,7 @@ Event OnOptionSelect(int option)
 			BYOHHouseHjaalmarch.UpdateCurrentInstanceGlobal(PWPBYOHHPCostNoFavor)
 			BYOHHousePale.UpdateCurrentInstanceGlobal(PWPBYOHHPCostNoFavor)
 			SetSliderOptionValue(sliderBYOHHPCost, PWPBYOHHPCostNoFavor.GetValue())
-		string loadResult = fiss.endLoad()
+		String loadResult = fiss.endLoad()
 
 		If (loadResult != "")
 			debug.Trace(loadResult)
@@ -186,7 +186,7 @@ Event OnOptionSelect(int option)
 
 			fiss.saveFloat("BYOHHPCost", BYOHHPCost.GetValue())
 			fiss.saveFloat("PWPBYOHHPCostNoFavor", PWPBYOHHPCostNoFavor.GetValue())
-		string saveResult = fiss.endSave()
+		String saveResult = fiss.endSave()
 
 		If (saveResult != "")
 			debug.Trace(saveResult)
@@ -197,7 +197,7 @@ Event OnOptionSelect(int option)
 	EndIf
 EndEvent
 
-Event OnOptionSliderOpen(int option)
+Event OnOptionSliderOpen(Int option)
 	If (option == sliderMarkarthHP)
 		SetSliderDialogStartValue(HPMarkarth.GetValue())
 		SetSliderDialogDefaultValue(defaultMarkarthHP)
@@ -261,7 +261,7 @@ Event OnOptionSliderOpen(int option)
 	EndIf
 EndEvent
 
-Event OnOptionSliderAccept(int option, float value)
+Event OnOptionSliderAccept(Int option, Float value)
 	If (option == sliderMarkarthHP)
 		HPMarkarth.SetValue(value)
 		HousePurchase.UpdateCurrentInstanceGlobal(HPMarkarth)
@@ -317,21 +317,20 @@ Event OnOptionSliderAccept(int option, float value)
 	EndIf
 EndEvent
 
+GlobalVariable Property BYOHHPCost Auto
 GlobalVariable Property HPMarkarth Auto
 GlobalVariable Property HPRiften Auto
 GlobalVariable Property HPSolitude Auto
 GlobalVariable Property HPWhiterun Auto
 GlobalVariable Property HPWindhelm Auto
-GlobalVariable Property BYOHHPCost  Auto  
+GlobalVariable Property PWPBYOHHPCostNoFavor Auto
+GlobalVariable Property PWPHPMarkarthNoFavor Auto
+GlobalVariable Property PWPHPRiftenNoFavor Auto
+GlobalVariable Property PWPHPSolitudeNoFavor Auto
+GlobalVariable Property PWPHPWhiterunNoFavor Auto
+GlobalVariable Property PWPHPWindhelmNoFavor Auto
 
-GlobalVariable Property PWPHPMarkarthNoFavor  Auto  
-GlobalVariable Property PWPHPRiftenNoFavor  Auto  
-GlobalVariable Property PWPHPSolitudeNoFavor  Auto  
-GlobalVariable Property PWPHPWhiterunNoFavor  Auto  
-GlobalVariable Property PWPHPWindhelmNoFavor  Auto  
-GlobalVariable Property PWPBYOHHPCostNoFavor  Auto  
-
-Quest Property HousePurchase  Auto  
-Quest Property BYOHHouseFalkreath  Auto  
-Quest Property BYOHHouseHjaalmarch  Auto  
-Quest Property BYOHHousePale  Auto  
+Quest Property HousePurchase Auto
+Quest Property BYOHHouseFalkreath Auto
+Quest Property BYOHHouseHjaalmarch Auto
+Quest Property BYOHHousePale Auto

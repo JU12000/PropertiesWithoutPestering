@@ -1,6 +1,6 @@
 ;BEGIN FRAGMENT CODE - Do not edit anything between this and the end comment
 ;NEXT FRAGMENT INDEX 1
-Scriptname TIF__030A3DCD Extends TopicInfo Hidden
+Scriptname PWP_TIF_81D Extends TopicInfo Hidden
 
 ;BEGIN FRAGMENT Fragment_0
 Function Fragment_0(ObjectReference akSpeakerRef)
@@ -8,10 +8,15 @@ Actor akSpeaker = akSpeakerRef as Actor
 ;BEGIN CODE
 GetOwningQuest().SetStage(11)
 Game.AddAchievement(31)
+HousecarlWhiterunref.AddToFaction(PotentialMarriageFaction)
 ;END CODE
 EndFunction
 ;END FRAGMENT
 
 ;END FRAGMENT CODE - Do not edit anything between this and the begin comment
 
-ObjectReference Property HjerimAbandoned  Auto  
+ActorBase Property HousecarlWhiterun Auto
+
+Faction Property PotentialMarriageFaction Auto
+
+Actor Property HousecarlWhiterunref Auto
